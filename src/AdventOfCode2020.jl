@@ -5,7 +5,7 @@ export read_infile, line_parser, solve
 
 abstract type Day end
 
-line_parser(::Type{T}, line)  where T <: Day = line |> strip
+line_parser(::Type{<:Day}, line) = line |> strip
 
 function read_infile(::Type{T}, path) where T <: Day
     open(path,"r") do datafile
@@ -15,6 +15,7 @@ end
 
 
 include("day1.jl")
+include("day2.jl")
 
 
 
