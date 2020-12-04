@@ -13,10 +13,8 @@ function read_infile(::Type{T}, path) where T <: Day
     end
 end
 
-
 include("day1.jl")
 include("day2.jl")
-
-
+include("day3.jl")
 
 end
