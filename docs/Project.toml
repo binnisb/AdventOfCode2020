@@ -1,0 +1,3 @@
+[deps]
+AdventOfCode2020 = "ac032302-4922-44db-9d56-69d2ce3b3c50"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"

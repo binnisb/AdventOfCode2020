@@ -1,0 +1,7 @@
+name = "AdventOfCode2020"
+uuid = "ac032302-4922-44db-9d56-69d2ce3b3c50"
+authors = ["Brynjar Smári Bjarnason <binni@binnisb.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.5"
