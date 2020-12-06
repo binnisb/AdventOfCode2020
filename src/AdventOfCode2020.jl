@@ -13,10 +13,28 @@ function read_infile(::Type{T}, path) where T <: Day
     end
 end
 
+function split_on_empty_line(lines)
+    if !("" == lines[end])
+        push!(lines, "")
+    end
+    res = Vector{Vector{String}}()
+    last_line = 1
+    for i in 1:length(lines)
+        if lines[i] == ""
+            
+            push!(res, lines[last_line:i-1])
+            last_line = i + 1
+        end
+    end
+    res
+end
+
 include("day1.jl")
 include("day2.jl")
 include("day3.jl")
 include("day4.jl")
 include("day5.jl")
+include("day6.jl")
+
 end
 

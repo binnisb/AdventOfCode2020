@@ -16,22 +16,15 @@ solve(::Type{Day4_1}) = solve(Day4_1, "$(@__DIR__)/assets/day4.txt")
 solve(::Type{Day4_2}) = solve(Day4_2, "$(@__DIR__)/assets/day4.txt")
 
 topassports(lines) = begin
-    if lines[end] != ""
-        push!(lines,"")
-    end
-
     passports = Dict{String,String}[]
-    last_line = 1
-    for i in 1:length(lines)
-        if lines[i] == ""
-            p = (
-                join(lines[last_line:i-1], " ") |> 
+    parts = split_on_empty_line(lines)
+    for part in parts
+        p = (
+                join(part, " ") |> 
                 split .|> 
                 l -> split(l, ":")
                 ) |> Dict{String,String}
             push!(passports, p)
-            last_line = i + 1
-        end
     end
     passports
 end
