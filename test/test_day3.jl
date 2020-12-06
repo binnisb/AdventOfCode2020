@@ -1,5 +1,5 @@
 
-@testset "Day3_2.jl" begin
+@testset "Day3.jl" begin
     # Write your tests here.
     diag_3_3 = reshape([true,false,false,false,true,false,false,false,true],(3,3))
     diag_3_2 = reshape([true,false,true,false,true,true],(3,2))
