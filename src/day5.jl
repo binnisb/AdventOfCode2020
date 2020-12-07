@@ -10,23 +10,17 @@ struct SeatLoc
     SeatLoc(row,col) = new(row, col, row*8+col)
 end
 
-solve(::Type{T}, path::String) where T <: Day5 = begin
-    (path |> p -> read_infile(T, p) .|> toseat .|> seat-> seat.id) |> sid -> day5_cond(T,sid)
-end
+line_parser(::Type{<:Day5}, line) = toseat(line)
 
-day5_cond(::Type{Day5_1}, seat_ids) = seat_ids |> maximum
-day5_cond(::Type{Day5_2}, seat_ids) = begin
-    seat_ids = Set(seat_ids)
-    
+solve(::Type{Day5_1}, seats::Vector) = maximum((seat.id for seat in seats))
+solve(::Type{Day5_2}, seats::Vector) = begin
+    seat_ids = Set((seat.id for seat in seats))
     for i in 1:length(seat_ids)-2
         if (i ∉ seat_ids) & (i-1 ∈ seat_ids) & (i+1 ∈ seat_ids)
             return i
         end
     end
 end
-
-solve(::Type{T}) where T <: Day5 = solve(T, "$(@__DIR__)/assets/day5.txt")
-
 
 row(v) = v |> x-> replace(x,Pair("F","0")) |> x-> replace(x,Pair("B","1")) |> x-> parse(Int,x; base=2)
 col(v) = v |> x-> replace(x,Pair("L","0")) |> x-> replace(x,Pair("R","1")) |> x-> parse(Int,x; base=2)

@@ -4,17 +4,13 @@ abstract type Day3_1 <: Day3 end
 abstract type Day3_2 <: Day3 end
 
 
-
-solve(::Type{T}, path, horizontal, vertical) where T <: Day3 = begin
-    path |> p -> read_infile(T, p) |> toforest |> f -> numtrees(f, horizontal, vertical)
-end
-
-solve(::Type{Day3_1}) = solve(Day3_1, "$(@__DIR__)/assets/day3.txt", 3, 1)
-solve(::Type{Day3_2}) = (
+solve(::Type{Day3_1}, lines::Vector) = solve(Day3_1, lines, 3, 1)
+solve(::Type{Day3_2}, lines::Vector) = (
         [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)] .|> 
-        x -> solve(Day3_2, "$(@__DIR__)/assets/day3.txt", x[1], x[2])
-    ) |>
-    prod
+        x -> solve(Day3_2, lines, x[1], x[2])
+    ) |> prod
+
+solve(::Type{T}, lines::Vector, horizontal, vertical) where T <: Day3 = lines |> toforest |> f -> numtrees(f, horizontal, vertical)
 
 function toforest(lines)
     forest = fill(false, (length(lines), length(lines[1])))
@@ -25,7 +21,7 @@ function toforest(lines)
             end
         end
     end
-    return forest
+    forest
 end
 
 function numtrees(forest, horizontal, vertical)

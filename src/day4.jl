@@ -3,17 +3,9 @@ abstract type Day4 <: Day end
 abstract type Day4_1 <: Day4 end
 abstract type Day4_2 <: Day4 end
 
-
-solve(::Type{T}, path::String) where T <: Day4 = begin
-    (path |> p -> read_infile(T, p) |> topassports .|> validpassport) |> sum
+solve(::Type{T}, lines::Vector) where T <: Day4 = begin
+    (lines |> topassports .|> p -> validpassport(T, p)) |> sum
 end
-
-solve(::Type{T}, lines::Vector{String}) where T <: Day4 = begin
-    (lines |> topassports .|> validpassport) |> sum
-end
-
-solve(::Type{Day4_1}) = solve(Day4_1, "$(@__DIR__)/assets/day4.txt")
-solve(::Type{Day4_2}) = solve(Day4_2, "$(@__DIR__)/assets/day4.txt")
 
 topassports(lines) = begin
     passports = Dict{String,String}[]
@@ -46,10 +38,16 @@ hgt_test(hgt) = begin
     low <= n <= high
 end
 
-validpassport(passport::Dict) = begin
+rules(::Type{Day4_1}, passport) = begin
     keyslength = keys(passport) |> length
-    tests = Dict([
+    Dict([
         "length"=> (keyslength == 8) | ((keyslength == 7) & ("cid" ∉ keys(passport))),
+    ])
+end
+
+rules(::Type{Day4_2}, passport) = begin
+    r1 = rules(Day4_1, passport)
+    r2 = Dict([
         "byr"=>1920 <= parse(Int, get(passport, "byr", "0")) <= 2002,
         "iyr"=>2010 <= parse(Int, get(passport, "iyr", "0")) <= 2020,
         "eyr"=>2020 <= parse(Int, get(passport, "eyr", "0")) <= 2030,
@@ -58,6 +56,11 @@ validpassport(passport::Dict) = begin
         "pid"=>occursin(r"^[0-9]{9}$", get(passport, "pid", "")),
         "hgt"=>hgt_test(get(passport, "hgt", "0cm"))
     ])
+    merge(r1,r2)
+end
 
-    (false in values(tests)) ? false : true
+
+validpassport(::Type{T}, passport::Dict) where T <: Day4 = begin
+    r = rules(T, passport)
+    (false in values(r)) ? false : true
 end

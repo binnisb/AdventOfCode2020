@@ -10,5 +10,6 @@ using Test
     include("test_day4.jl")
     include("test_day5.jl")
     include("test_day6.jl")
+    include("test_day7.jl")
 
 end

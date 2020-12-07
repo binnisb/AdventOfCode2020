@@ -10,17 +10,13 @@ struct Day2Line
     password::String
 end
 
-solve(::Type{T}, path) where T <: Day2 = begin
-    path |> p -> read_infile(T, p) |> lines -> valids(T, lines) |> sum
-end
-solve(::Type{Day2_1}) = solve(Day2_1, "$(@__DIR__)/assets/day2.txt")
-solve(::Type{Day2_2}) = solve(Day2_2, "$(@__DIR__)/assets/day2.txt")
-
 line_parser(::Type{<:Day2}, line) = begin 
     (first, middle, last) = line |> strip |> split
     low, high = first |> s -> split(s, "-") .|> s -> parse(Int,s)
     Day2Line(low, high, middle[1], last)
 end
+
+solve(::Type{T}, lines::Vector) where T <: Day2 = lines |> lines -> valids(T, lines) |> sum
 
 valids(::Type{T}, lines::Array{Day2Line,1}) where T <: Day2 = lines .|> l -> validpassword(T, l) 
 
