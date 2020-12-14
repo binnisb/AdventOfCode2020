@@ -1,2 +1,3 @@
 [deps]
+AdventOfCode2020 = "ac032302-4922-44db-9d56-69d2ce3b3c50"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
